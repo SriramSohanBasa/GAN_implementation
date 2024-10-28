@@ -86,11 +86,15 @@ MANIFEST
 
 # Environments
 .conda/
+
 # Data folder
 data/
 
 # WandB folder
 wandb/
+
+# Model checkpoints
+models/
 
 # Others
 *.bak

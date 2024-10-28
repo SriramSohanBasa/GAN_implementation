@@ -45,3 +45,9 @@ optimizerD = optim.Adam(discriminator.parameters(), lr=LEARNING_RATE, betas=(BET
 optimizerG = optim.Adam(generator.parameters(), lr=LEARNING_RATE, betas=(BETA1, 0.999))
 
 train(generator, discriminator, device, dataloader, optimizerG, optimizerD, criterion, NUM_EPOCHS, LATENT_DIM)
+
+
+
+
+#https://wandb.ai/basa-s-northeastern-university/dcgan/runs/dh6toqh3
+#wandb/run-20241028_152228-dh6toqh3/logs
