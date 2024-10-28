@@ -1,16 +1,132 @@
-# GAN Image Generation Project
 
-This project implements a Generative Adversarial Network (GAN) using TensorFlow and Keras to generate realistic images from random noise. The model is trained on the CIFAR-10 dataset, and both the generator and discriminator networks use convolutional layers.
+# DCGAN Image Generation Project
 
-## Project Structure
+This project implements a Deep Convolutional Generative Adversarial Network (DCGAN) to generate realistic images by learning from the CIFAR-10 dataset. Using PyTorch and WandB, this project explores the process of generating new image samples based on random noise inputs and demonstrates the effectiveness of GANs in image synthesis. The project has been organized into multiple modules to maintain a clean structure, with code for loading data, building the DCGAN architecture, training, and logging.
 
-- `main.py`: Entry point of the application.
-- `config.py`: Configuration parameters and hyperparameters.
-- `models/`: Contains the generator and discriminator models.
-- `utils/`: Utility functions for data loading, image saving, and training.
+## Table of Contents
 
-## How to Run
+1. [Project Overview](#project-overview)
+2. [Architecture](#architecture)
+   - [Generator](#generator)
+   - [Discriminator](#discriminator)
+3. [Setup and Installation](#setup-and-installation)
+4. [Training the Model](#training-the-model)
+5. [Logging and Results](#logging-and-results)
+6. [Future Enhancements](#future-enhancements)
 
-1. Install the required packages:
-   ```bash
-   pip install -r requirements.txt
+## Project Overview
+
+This project builds a Deep Convolutional GAN (DCGAN) to generate realistic images based on random noise input. The DCGAN architecture employs convolutional layers and ReLU/LeakyReLU activations to ensure smooth and effective learning for generating images. The primary goal is to train the generator to produce high-quality synthetic images that the discriminator cannot distinguish from real images.
+
+The CIFAR-10 dataset is used as a training dataset, which contains 60,000 32x32 color images across 10 different classes. The DCGAN is structured to handle these images and outputs generated images that can resemble samples from the dataset.
+
+## Architecture
+
+This DCGAN implementation consists of two main components:
+
+### Generator
+
+The generator network starts with a random noise vector, transforming it through a series of convolutional transpose layers to create a 32x32 color image. The architecture and key layers of the generator are:
+
+- Input Layer: Accepts a latent vector of size 100.
+- Convolutional Transpose Layers: Upsamples the latent vector step-by-step until reaching the target image size.
+- Batch Normalization: Applied after each upsample layer to maintain stable gradient flow.
+- Activation: ReLU is used to enable non-linearity, with Tanh as the output layer activation to scale pixel values to a range [-1, 1].
+
+### Discriminator
+
+The discriminator is a convolutional network trained to classify real vs. generated images. Its architecture is as follows:
+
+- Input Layer: Accepts a 32x32x3 RGB image.
+- Convolutional Layers: Sequential downsampling layers with LeakyReLU activations.
+- Batch Normalization: Helps to maintain a stable gradient.
+- Output Layer: A single-node layer with Sigmoid activation, outputting a probability that the input is a real image.
+
+## Setup and Installation
+
+### Prerequisites
+
+- Python 3.x
+- PyTorch
+- WandB for logging
+
+### Installation
+
+1. Clone the Repository:
+
+```bash
+git clone <repository-url>
+cd dcgan-image-generation
+```
+
+2. Install Dependencies:
+Install all required dependencies using pip:
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Initialize WandB:
+Log in to WandB using your credentials:
+
+```bash
+wandb login
+```
+
+4. Configuration:
+Ensure that `config.py` contains the correct paths and parameters, especially `GENERATED_IMAGES_DIR` for saving generated images.
+
+## Training the Model
+
+To train the DCGAN model, use the following command:
+
+```bash
+python main.py
+```
+
+### Training Details
+
+1. Data Loading:
+   - CIFAR-10 is automatically downloaded and processed.
+   - Images are normalized to have pixel values in the range [-1, 1].
+2. Training Loop:
+   - Each epoch trains the discriminator and generator using batches of real and generated images.
+   - The discriminator is trained to distinguish between real and generated images.
+   - The generator aims to fool the discriminator by producing realistic images.
+3. Loss Function:
+   - The discriminator uses Binary Cross-Entropy Loss to classify real vs. generated images.
+   - The generator uses the same loss but with flipped labels to simulate real images.
+4. Hyperparameters:
+   - Batch Size: 128
+   - Image Size: 32
+   - Learning Rate: 0.0002
+   - Epochs: 30
+   - Latent Dimension: 100
+   - Optimizer: Adam (with beta1 = 0.5)
+
+### Model Checkpoints and Image Saving
+
+- Generated images are saved every 2 epochs in the `GENERATED_IMAGES_DIR`.
+- Model checkpoints can be saved by configuring the code to periodically save the generator and discriminator models.
+
+## Logging and Results
+
+The model training process, including losses, generated images, and other metrics, is logged on Weights & Biases (WandB) for monitoring and review.
+
+- Training Logs: Includes discriminator and generator loss over each epoch.
+- Generated Images: Every 2 epochs, generated images are saved and uploaded to WandB for inspection.
+- Visual Metrics: Images generated by the model can be visually inspected and compared over epochs.
+
+View the full training log and generated images on WandB:
+[DCGAN Training Log on WandB](#)
+
+## Future Enhancements
+
+1. Conditional GAN (cGAN): Adding class labels to generate images of specific classes from the CIFAR-10 dataset.
+2. Improved Loss Functions: Implementing alternative loss functions like Wasserstein Loss for better stability.
+3. Data Augmentation: Introducing transformations to increase dataset variability.
+
+## Conclusion
+
+This DCGAN implementation successfully generates realistic images from random noise after training on the CIFAR-10 dataset. Using the generator and discriminator architectures in tandem allows for an effective learning setup that simulates real-world images. For more detailed results, refer to the WandB report to see image generation quality and performance metrics.
+

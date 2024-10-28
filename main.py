@@ -1,28 +1,47 @@
-from models import build_generator, build_discriminator
-from utils import load_data, train, generate_and_show_images
-from config import IMG_SHAPE, NOISE_DIM
+import torch
+import wandb
+import random
+import numpy as np
+from config import BATCH_SIZE, IMAGE_SIZE, LEARNING_RATE, BETA1, NUM_EPOCHS, LATENT_DIM, NC
+from models import Generator, Discriminator
+from utils.training import train
+from torchvision import datasets, transforms
+from torch.utils.data import DataLoader
+import torch.optim as optim
+import torch.nn as nn
 
-def main():
-    # Load data
-    x_train = load_data()
+wandb.init(project="dcgan")
 
-    # Build models
-    generator = build_generator(NOISE_DIM)
-    discriminator = build_discriminator(IMG_SHAPE)
+manualSeed = 42
+random.seed(manualSeed)
+torch.manual_seed(manualSeed)
 
-    # Build and compile the GAN model
-    discriminator.trainable = False  # Ensure discriminator is not trainable in GAN
-    from tensorflow.keras import Input, Model
-    gan_input = Input(shape=(NOISE_DIM,))
-    generated_image = generator(gan_input)
-    gan_output = discriminator(generated_image)
-    gan = Model(gan_input, gan_output)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # Train the GAN
-    train(generator, discriminator, gan, x_train)
+transform = transforms.Compose([
+    transforms.Resize(IMAGE_SIZE),
+    transforms.ToTensor(),
+    transforms.Normalize((0.5,), (0.5,))
+])
+dataset = datasets.CIFAR10(root='./data', download=True, transform=transform)
+dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
 
-    # Generate and display images after training
-    generate_and_show_images(generator, NOISE_DIM)
+generator = Generator(nz=100, ngf=64, nc=3).to(device)
+discriminator = Discriminator().to(device)
 
-if __name__ == '__main__':
-    main()
+def weights_init(m):
+    classname = m.__class__.__name__
+    if classname.find("Conv") != -1:
+        nn.init.normal_(m.weight.data, 0.0, 0.02)
+    elif classname.find("BatchNorm") != -1:
+        nn.init.normal_(m.weight.data, 1.0, 0.02)
+        nn.init.constant_(m.bias.data, 0)
+
+generator.apply(weights_init)
+discriminator.apply(weights_init)
+
+criterion = nn.BCELoss()
+optimizerD = optim.Adam(discriminator.parameters(), lr=LEARNING_RATE, betas=(BETA1, 0.999))
+optimizerG = optim.Adam(generator.parameters(), lr=LEARNING_RATE, betas=(BETA1, 0.999))
+
+train(generator, discriminator, device, dataloader, optimizerG, optimizerD, criterion, NUM_EPOCHS, LATENT_DIM)

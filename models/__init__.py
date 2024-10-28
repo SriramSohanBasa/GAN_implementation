@@ -1,2 +1,2 @@
-from .generator import build_generator
-from .discriminator import build_discriminator
+from .generator import Generator
+from .discriminator import Discriminator

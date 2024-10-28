@@ -1,14 +1,10 @@
-# Configuration parameters and hyperparameters
-
-# Data parameters
-IMG_SHAPE = (32, 32, 3)
-NOISE_DIM = 100
-
-# Training parameters
-EPOCHS = 10000
+# Hyperparameters and configuration
 BATCH_SIZE = 128
-SAMPLE_INTERVAL = 1000  # Interval to save generated image samples
-LEARNING_RATE = 1e-4
+IMAGE_SIZE = 32
+LEARNING_RATE = 0.0002
+BETA1 = 0.5
+NUM_EPOCHS = 30
+LATENT_DIM = 100
+NC = 3  # Number of channels (RGB)
 
-# Paths
-GENERATED_IMAGES_DIR = 'generated_images'
+GENERATED_IMAGES_DIR = './generated_images'

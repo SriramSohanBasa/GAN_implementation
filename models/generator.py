@@ -1,23 +1,27 @@
-from tensorflow.keras import layers, models
+import torch
+import torch.nn as nn
 
-def build_generator(noise_dim):
-    model = models.Sequential(name='Generator')
-    
-    # Fully connected layer to reshape noise vector
-    model.add(layers.Dense(8 * 8 * 256, use_bias=False, input_shape=(noise_dim,)))
-    model.add(layers.BatchNormalization())
-    model.add(layers.ReLU())
-    model.add(layers.Reshape((8, 8, 256)))  # Reshape to 8x8x256
+class Generator(nn.Module):
+    def __init__(self, nz, ngf, nc):
+        super(Generator, self).__init__()
+        self.main = nn.Sequential(
+            # Input is Z, going into a convolution
+            nn.ConvTranspose2d(nz, ngf * 8, 4, 1, 0, bias=False),
+            nn.BatchNorm2d(ngf * 8),
+            nn.ReLU(True),
+            # State size. (ngf*8) x 4 x 4
+            nn.ConvTranspose2d(ngf * 8, ngf * 4, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ngf * 4),
+            nn.ReLU(True),
+            # State size. (ngf*4) x 8 x 8
+            nn.ConvTranspose2d(ngf * 4, ngf * 2, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ngf * 2),
+            nn.ReLU(True),
+            # State size. (ngf*2) x 16 x 16
+            nn.ConvTranspose2d(ngf * 2, nc, 4, 2, 1, bias=False),
+            nn.Tanh()
+            # Final output is (nc) x 32 x 32
+        )
 
-    # Transposed Convolutions to upscale to 32x32
-    model.add(layers.Conv2DTranspose(128, kernel_size=5, strides=1, padding='same', use_bias=False))
-    model.add(layers.BatchNormalization())
-    model.add(layers.ReLU())
-
-    model.add(layers.Conv2DTranspose(64, kernel_size=5, strides=2, padding='same', use_bias=False))
-    model.add(layers.BatchNormalization())
-    model.add(layers.ReLU())
-
-    model.add(layers.Conv2DTranspose(3, kernel_size=5, strides=2, padding='same', use_bias=False, activation='tanh'))
-
-    return model
+    def forward(self, input):
+        return self.main(input)

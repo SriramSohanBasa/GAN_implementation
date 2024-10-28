@@ -1,0 +1,16 @@
+{"time":"2024-10-28T02:33:06.007235-04:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2024-10-28T02:33:06.007325-04:00","level":"INFO","msg":"created symlink","path":"/Users/sriramsohan/Documents/projects/GAN_image_generation/wandb/run-20241028_023305-ww05h581/logs/debug-core.log"}
+{"time":"2024-10-28T02:33:06.324067-04:00","level":"INFO","msg":"created new stream","id":"ww05h581"}
+{"time":"2024-10-28T02:33:06.324104-04:00","level":"INFO","msg":"stream: started","id":"ww05h581"}
+{"time":"2024-10-28T02:33:06.324134-04:00","level":"INFO","msg":"sender: started","stream_id":"ww05h581"}
+{"time":"2024-10-28T02:33:06.324124-04:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"ww05h581"}}
+{"time":"2024-10-28T02:33:06.324216-04:00","level":"INFO","msg":"handler: started","stream_id":{"value":"ww05h581"}}
+{"time":"2024-10-28T02:33:06.541792-04:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-28T02:50:57.565604-04:00","level":"INFO","msg":"stream: closing","id":"ww05h581"}
+{"time":"2024-10-28T02:50:57.56564-04:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-28T02:50:57.566085-04:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-28T02:50:59.839629-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-28T02:51:00.504226-04:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"ww05h581"}}
+{"time":"2024-10-28T02:51:00.504247-04:00","level":"INFO","msg":"sender: closed","stream_id":"ww05h581"}
+{"time":"2024-10-28T02:51:00.504241-04:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"ww05h581"}}
+{"time":"2024-10-28T02:51:00.504582-04:00","level":"INFO","msg":"stream: closed","id":"ww05h581"}

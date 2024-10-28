@@ -1,0 +1,33 @@
+Files already downloaded and verified
+[Epoch 1/30][0/391] Loss_D: 1.3285 Loss_G: 1.6854 D(x): 0.4813
+[Epoch 1/30][50/391] Loss_D: 0.7574 Loss_G: 4.2519 D(x): 0.8160
+[Epoch 1/30][100/391] Loss_D: 1.0352 Loss_G: 3.3513 D(x): 0.6806
+[Epoch 1/30][150/391] Loss_D: 0.9224 Loss_G: 2.0178 D(x): 0.7237
+[Epoch 1/30][200/391] Loss_D: 0.9822 Loss_G: 2.2626 D(x): 0.7064
+[Epoch 1/30][250/391] Loss_D: 0.7600 Loss_G: 2.3292 D(x): 0.7766
+[Epoch 1/30][300/391] Loss_D: 0.8589 Loss_G: 2.6492 D(x): 0.7055
+[Epoch 1/30][350/391] Loss_D: 1.2853 Loss_G: 2.5970 D(x): 0.7598
+[Epoch 2/30][0/391] Loss_D: 1.0435 Loss_G: 1.6090 D(x): 0.6253
+[Epoch 2/30][50/391] Loss_D: 0.9987 Loss_G: 1.8640 D(x): 0.6821
+[Epoch 2/30][100/391] Loss_D: 0.8294 Loss_G: 1.9665 D(x): 0.6996
+[Epoch 2/30][150/391] Loss_D: 1.0738 Loss_G: 2.6329 D(x): 0.7024
+[Epoch 2/30][200/391] Loss_D: 0.9748 Loss_G: 1.6427 D(x): 0.6612
+[Epoch 2/30][250/391] Loss_D: 1.0278 Loss_G: 2.5372 D(x): 0.7439
+[Epoch 2/30][300/391] Loss_D: 0.8760 Loss_G: 2.0448 D(x): 0.8276
+[Epoch 2/30][350/391] Loss_D: 0.8682 Loss_G: 1.8439 D(x): 0.7185
+[Epoch 3/30][0/391] Loss_D: 0.8415 Loss_G: 2.4242 D(x): 0.8107
+[Epoch 3/30][50/391] Loss_D: 0.8237 Loss_G: 2.2553 D(x): 0.7745
+Traceback (most recent call last):
+  File "/Users/sriramsohan/Documents/projects/GAN_image_generation/main.py", line 47, in <module>
+    train(generator, discriminator, device, dataloader, optimizerG, optimizerD, criterion, NUM_EPOCHS, LATENT_DIM)
+  File "/Users/sriramsohan/Documents/projects/GAN_image_generation/utils/training.py", line 44, in train
+    errG.backward()
+  File "/Users/sriramsohan/miniforge3/envs/gan_env/lib/python3.10/site-packages/torch/_tensor.py", line 581, in backward
+    torch.autograd.backward(
+  File "/Users/sriramsohan/miniforge3/envs/gan_env/lib/python3.10/site-packages/torch/autograd/__init__.py", line 347, in backward
+    _engine_run_backward(
+  File "/Users/sriramsohan/miniforge3/envs/gan_env/lib/python3.10/site-packages/torch/autograd/graph.py", line 825, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+  File "/Users/sriramsohan/miniforge3/envs/gan_env/lib/python3.10/site-packages/wandb/integration/torch/wandb_torch.py", line 276, in <lambda>
+    handle = var.register_hook(lambda grad: _callback(grad, log_track))
+KeyboardInterrupt

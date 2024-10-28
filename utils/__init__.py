@@ -1,3 +1,3 @@
-from .data_loader import load_data
-from .image_utils import save_images, generate_and_show_images
+from .data_loader import load_real_samples
 from .training import train
+from .image_utils import generate_and_show_images

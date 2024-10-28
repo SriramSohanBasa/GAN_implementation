@@ -1,0 +1,22 @@
+{"time":"2024-10-28T12:34:37.534866-04:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2024-10-28T12:34:37.534919-04:00","level":"INFO","msg":"created symlink","path":"/Users/sriramsohan/Documents/projects/GAN_image_generation/wandb/run-20241028_123437-dw4lcl4x/logs/debug-core.log"}
+{"time":"2024-10-28T12:34:37.64583-04:00","level":"INFO","msg":"created new stream","id":"dw4lcl4x"}
+{"time":"2024-10-28T12:34:37.645867-04:00","level":"INFO","msg":"stream: started","id":"dw4lcl4x"}
+{"time":"2024-10-28T12:34:37.645901-04:00","level":"INFO","msg":"sender: started","stream_id":"dw4lcl4x"}
+{"time":"2024-10-28T12:34:37.645965-04:00","level":"INFO","msg":"handler: started","stream_id":{"value":"dw4lcl4x"}}
+{"time":"2024-10-28T12:34:37.645919-04:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"dw4lcl4x"}}
+{"time":"2024-10-28T12:34:38.112447-04:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-28T13:03:53.754399-04:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/basa-s-northeastern-university/dcgan/dw4lcl4x/file_stream\": read tcp 10.0.0.125:49628->35.186.228.49:443: read: connection reset by peer"}
+{"time":"2024-10-28T13:25:53.739015-04:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/basa-s-northeastern-university/dcgan/dw4lcl4x/file_stream\": read tcp 10.0.0.125:49859->35.186.228.49:443: read: connection reset by peer"}
+{"time":"2024-10-28T13:26:23.831292-04:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/basa-s-northeastern-university/dcgan/dw4lcl4x/file_stream\": read tcp 10.0.0.125:49863->35.186.228.49:443: read: connection reset by peer"}
+{"time":"2024-10-28T13:30:23.724764-04:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/basa-s-northeastern-university/dcgan/dw4lcl4x/file_stream\": read tcp 10.0.0.125:49891->35.186.228.49:443: read: connection reset by peer"}
+{"time":"2024-10-28T13:46:23.803473-04:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/basa-s-northeastern-university/dcgan/dw4lcl4x/file_stream\": read tcp 10.0.0.125:49978->35.186.228.49:443: read: connection reset by peer"}
+{"time":"2024-10-28T13:46:39.16131-04:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/basa-s-northeastern-university/dcgan/dw4lcl4x/file_stream\": read tcp 10.0.0.125:49980->35.186.228.49:443: read: connection reset by peer"}
+{"time":"2024-10-28T14:19:41.131057-04:00","level":"INFO","msg":"stream: closing","id":"dw4lcl4x"}
+{"time":"2024-10-28T14:19:41.13169-04:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-28T14:19:41.132222-04:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-28T14:19:42.840425-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-28T14:19:43.715252-04:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"dw4lcl4x"}}
+{"time":"2024-10-28T14:19:43.715319-04:00","level":"INFO","msg":"sender: closed","stream_id":"dw4lcl4x"}
+{"time":"2024-10-28T14:19:43.715305-04:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"dw4lcl4x"}}
+{"time":"2024-10-28T14:19:43.715694-04:00","level":"INFO","msg":"stream: closed","id":"dw4lcl4x"}

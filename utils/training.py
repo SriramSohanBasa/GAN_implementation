@@ -1,57 +1,60 @@
+import torch
+import wandb
+from torchvision.utils import make_grid
+import matplotlib.pyplot as plt
 import numpy as np
-from tqdm import tqdm
-from tensorflow.keras import optimizers
-from config import NOISE_DIM, LEARNING_RATE, EPOCHS, BATCH_SIZE, SAMPLE_INTERVAL
-from .image_utils import save_images
 
-def train(generator, discriminator, gan, x_train):
-    # Compile the discriminator
-    discriminator.compile(loss='binary_crossentropy',
-                          optimizer=optimizers.Adam(LEARNING_RATE),
-                          metrics=['accuracy'])
+def train(generator, discriminator, device, dataloader, optimizerG, optimizerD, criterion, epochs, latent_dim, save_interval=2):
+    # Watch the models for logging gradients and parameters
+    wandb.watch(generator, log="all")
+    wandb.watch(discriminator, log="all")
 
-    # Compile the GAN model
-    discriminator.trainable = False  # Freeze discriminator weights during generator training
-    gan.compile(loss='binary_crossentropy', optimizer=optimizers.Adam(LEARNING_RATE))
+    # Labels for real and fake data
+    real_label = 0.9
+    fake_label = 0.1
 
-    # Labels for real and fake images
-    real = np.ones((BATCH_SIZE, 1))
-    fake = np.zeros((BATCH_SIZE, 1))
+    # Start training loop
+    for epoch in range(1, epochs + 1):
+        for i, data in enumerate(dataloader, 0):
+            # Train Discriminator with real images
+            discriminator.zero_grad()
+            real_images = data[0].to(device)
+            batch_size = real_images.size(0)
+            real_labels = torch.full((batch_size,), real_label, device=device)
+            output_real = discriminator(real_images).view(-1)
+            errD_real = criterion(output_real, real_labels)
+            errD_real.backward()
+            D_x = output_real.mean().item()
 
-    for epoch in tqdm(range(EPOCHS)):
-        # ---------------------
-        #  Train Discriminator
-        # ---------------------
-        # Select a random batch of real images
-        idx = np.random.randint(0, x_train.shape[0], BATCH_SIZE)
-        real_imgs = x_train[idx]
+            # Train Discriminator with fake images
+            noise = torch.randn(batch_size, latent_dim, 1, 1, device=device)
+            fake_images = generator(noise)
+            fake_labels = torch.full((batch_size,), fake_label, device=device)
+            output_fake = discriminator(fake_images.detach()).view(-1)
+            errD_fake = criterion(output_fake, fake_labels)
+            errD_fake.backward()
+            errD = errD_real + errD_fake
+            optimizerD.step()
 
-        # Generate a batch of fake images
-        noise = np.random.normal(0, 1, (BATCH_SIZE, NOISE_DIM))
-        gen_imgs = generator.predict(noise)
+            # Train Generator to fool Discriminator
+            generator.zero_grad()
+            fake_labels.fill_(real_label)  # Use real label for generator loss
+            output = discriminator(fake_images).view(-1)
+            errG = criterion(output, fake_labels)
+            errG.backward()
+            optimizerG.step()
 
-        # Train the discriminator
-        d_loss_real = discriminator.train_on_batch(real_imgs, real)
-        d_loss_fake = discriminator.train_on_batch(gen_imgs, fake)
-        d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
+            # Log losses every 50 batches
+            if i % 50 == 0:
+                print(f'[Epoch {epoch}/{epochs}][{i}/{len(dataloader)}] Loss_D: {errD.item():.4f} Loss_G: {errG.item():.4f} D(x): {D_x:.4f}')
+                wandb.log({"Generator Loss": errG.item(), "Discriminator Loss": errD.item()})
 
-        # ---------------------
-        #  Train Generator
-        # ---------------------
-        # Generate noise
-        noise = np.random.normal(0, 1, (BATCH_SIZE, NOISE_DIM))
-
-        # Train the generator (trying to fool the discriminator)
-        g_loss = gan.train_on_batch(noise, real)
-
-        # Print the progress
-        if (epoch + 1) % 100 == 0:
-            print(f"Epoch {epoch + 1}/{EPOCHS} [D loss: {d_loss[0]:.4f}, acc.: {100*d_loss[1]:.2f}%] [G loss: {g_loss:.4f}]")
-
-        # Save generated image samples
-        if (epoch + 1) % SAMPLE_INTERVAL == 0:
-            save_images(generator, epoch + 1, NOISE_DIM)
-            
-    generator.save('generator_model.h5')
-    discriminator.save('discriminator_model.h5')
-    print("Models saved: generator_model.h5 and discriminator_model.h5")
+        # Save and log generated images every `save_interval` epochs
+        if epoch % save_interval == 0:
+            with torch.no_grad():
+                fake_images = generator(noise).detach().cpu()
+                img_grid = make_grid(fake_images, padding=2, normalize=True)
+                wandb.log({"Generated Images": [wandb.Image(img_grid, caption=f"Epoch {epoch}")]})
+                plt.imshow(np.transpose(img_grid, (1, 2, 0)))
+                plt.axis("off")
+                #plt.show()
