@@ -130,3 +130,13 @@ View the full training log and generated images on WandB:
 
 This DCGAN implementation successfully generates realistic images from random noise after training on the CIFAR-10 dataset. Using the generator and discriminator architectures in tandem allows for an effective learning setup that simulates real-world images. For more detailed results, refer to the WandB report to see image generation quality and performance metrics.
 
+📊 Logging and Results
+
+The model’s training, including losses and generated images, is logged on Weights & Biases (WandB) for monitoring and analysis.
+
+	•	Training Logs: Discriminator and generator loss per epoch.
+	•	Generated Images: Saved and uploaded every 2 epochs for visual inspection on WandB.
+	•	Visual Metrics: Generated images can be examined over epochs for quality.
+
+View the full training log and generated images on WandB:
+https://wandb.ai/basa-s-northeastern-university/dcgan/runs/dw4lcl4x?nw=nwuserbasas
